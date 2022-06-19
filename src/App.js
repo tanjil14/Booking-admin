@@ -3,11 +3,12 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext.js";
 import { DarkModeContext } from "./context/darkModeContext.js";
 import { hotelColumns, userColumns } from "./datatablesource.js";
-import { productInputs, userInputs } from "./formData.js";
+import { userInputs } from "./formData.js";
 import Home from "./pages/home/Home.jsx";
 import List from "./pages/list/List.jsx";
 import Login from "./pages/login/Login.jsx";
 import New from "./pages/new/New.jsx";
+import NewHotel from "./pages/newHotel/NewHotel.jsx";
 import Single from "./pages/single/Single.jsx";
 import "./style/dark.scss";
 function App() {
@@ -80,7 +81,7 @@ function App() {
                 path="new"
                 element={
                   <ProtectedRoute>
-                    <New inputData={productInputs} title="Add New Product" />
+                    <NewHotel />
                   </ProtectedRoute>
                 }
               />

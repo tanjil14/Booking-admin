@@ -1,5 +1,5 @@
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
+import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
@@ -9,7 +9,7 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
-import StoreIcon from "@mui/icons-material/Store";
+import HotelIcon from '@mui/icons-material/Hotel';
 import { Link } from "react-router-dom";
 import "./sidebarCenterList.scss";
 const SidebarCenterList = () => {
@@ -29,16 +29,18 @@ const SidebarCenterList = () => {
           <span>Users</span>
         </li>
       </Link>
-      <Link to="/products" style={{ textDecoration: "none" }}>
+      <Link to="/hotels" style={{ textDecoration: "none" }}>
         <li>
-          <StoreIcon className="icon" />
-          <span>Products</span>
+          <HotelIcon className="icon" />
+          <span>Hotels</span>
         </li>
       </Link>
-      <li>
-        <CreditCardIcon className="icon" />
-        <span>Orders</span>
-      </li>
+      <Link to="/rooms" style={{ textDecoration: "none" }}>
+        <li>
+          <BedOutlinedIcon className="icon" />
+          <span>Rooms</span>
+        </li>
+      </Link>
       <li>
         <LocalShippingIcon className="icon" />
         <span>Delivery</span>

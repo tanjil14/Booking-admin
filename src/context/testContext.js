@@ -1,4 +1,6 @@
-export const userColumns = [
+import { createContext } from "react";
+
+const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
     field: "user",
@@ -23,26 +25,12 @@ export const userColumns = [
   { field: "phone", headerName: "Phone", width: 100 },
 ];
 
-export const hotelColumns = [
-  { field: "_id", headerName: "ID", width: 250 },
-  {
-    field: "name",
-    headerName: "Name",
-    width: 150,
-  },
-  {
-    field: "type",
-    headerName: "Type",
-    width: 100,
-  },
-  {
-    field: "title",
-    headerName: "Title",
-    width: 230,
-  },
-  {
-    field: "city",
-    headerName: "City",
-    width: 100,
-  },
-];
+export const TestContext = createContext(userColumns);
+
+export const TestContextProvider = ({ children }) => {
+  return (
+    <TestContext.Provider value={{ userColumns }}>
+      {children}
+    </TestContext.Provider>
+  );
+};

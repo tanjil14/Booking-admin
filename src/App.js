@@ -2,13 +2,14 @@ import { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext.js";
 import { DarkModeContext } from "./context/darkModeContext.js";
-import { hotelColumns, userColumns } from "./datatablesource.js";
+import { hotelColumns, userColumns,roomColumns } from "./datatablesource.js";
 import { userInputs } from "./formData.js";
 import Home from "./pages/home/Home.jsx";
 import List from "./pages/list/List.jsx";
 import Login from "./pages/login/Login.jsx";
 import New from "./pages/new/New.jsx";
 import NewHotel from "./pages/newHotel/NewHotel.jsx";
+import NewRoom from "./pages/newRoom/NewRoom.jsx";
 import Single from "./pages/single/Single.jsx";
 import "./style/dark.scss";
 function App() {
@@ -70,7 +71,7 @@ function App() {
                 }
               />
               <Route
-                path=":productId"
+                path=":hotelId"
                 element={
                   <ProtectedRoute>
                     <Single />
@@ -82,6 +83,32 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <NewHotel />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="rooms">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <List columns={roomColumns} />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":productId"
+                element={
+                  <ProtectedRoute>
+                    <Single />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <ProtectedRoute>
+                    <NewRoom  />
                   </ProtectedRoute>
                 }
               />

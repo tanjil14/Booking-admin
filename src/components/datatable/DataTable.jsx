@@ -10,7 +10,6 @@ const DataTable = ({ columns }) => {
   const path = location.pathname.split("/")[1];
   const [list, setList] = useState([]);
   const { data} = useFetch(`/${path}`);
-  console.log(data)
   useEffect(() => {
     setList(data);
   }, [data]);
@@ -45,7 +44,7 @@ const DataTable = ({ columns }) => {
   return (
     <div className="dataTable">
       <div className="datatableTitle">
-        Add New User
+        {`${path}`}
         <Link to={`/${path}/new`} className="link">
           Add New
         </Link>

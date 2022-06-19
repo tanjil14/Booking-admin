@@ -1,55 +1,81 @@
-import { DriveFolderUploadOutlined } from "@mui/icons-material";
+import axios from "axios";
 import { useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+import { roomInputs } from "../../formData";
+import useFetch from "../../hooks/useFetch";
 import "./newRoom.scss";
-const NewRoom = ({ inputData, title }) => {
-  const [file, setFile] = useState("");
-
+const NewRoom = () => {
+  const [info, setInfo] = useState({});
+  const [hotelId, setHotelId] = useState(undefined);
+  const [rooms, setRooms] = useState([]);
+  const { data, loading } = useFetch("/hotels");
+  const handleChange = (e) => {
+    setInfo((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
+    try {
+      //send to db
+      await axios.post(`/rooms/${hotelId}`, { ...info, roomNumbers });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="new">
       <Sidebar />
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>{title}</h1>
+          <h1>Add New Room</h1>
         </div>
         <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
           <div className="right">
             <form>
-              <div className="formInput">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlined className="icon" />
-                </label>
-                <input
-                  onChange={(e) => setFile(e.target.files[0])}
-                  type="file"
-                  id="file"
-                  style={{ display: "none" }}
-                />
-              </div>
-              {inputData.map((data) => (
+              {roomInputs.map((data) => (
                 <div className="formInput" key={data.id}>
                   <label htmlFor={data.id}>{data.label}</label>
                   <input
+                    onChange={handleChange}
                     type={data.type}
                     placeholder={data.placeholder}
                     id={data.id}
                   />
                 </div>
               ))}
+              <div className="formInput">
+                <label htmlFor="rooms">Rooms</label>
+                <textarea
+                  onChange={(e) => setRooms(e.target.value)}
+                  name=""
+                  id="rooms"
+                  placeholder="Give comma between room numbers"
+                />
+              </div>
+              <div className="formInput">
+                <label htmlFor="hotelId">Choose A Hotel</label>
+                <select
+                  name=""
+                  id="hotelId"
+                  onChange={(e) => setHotelId(e.target.value)}
+                >
+                  {loading
+                    ? "loading"
+                    : data &&
+                      data.map((hotel) => (
+                        <option key={hotel._id} value={hotel._id}>
+                          {hotel.name}
+                        </option>
+                      ))}
+                </select>
+              </div>
 
-              <button>Send</button>
+              <button onClick={handleSubmit}>Send</button>
             </form>
           </div>
         </div>

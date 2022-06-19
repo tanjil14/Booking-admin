@@ -10,6 +10,26 @@ const NewRoom = () => {
   const [hotelId, setHotelId] = useState(undefined);
   const [rooms, setRooms] = useState([]);
   const { data, loading } = useFetch("/hotels");
+  const validation = () => {
+    const errors = {};
+    const { title, desc, price, maxPeople } = info;
+    if (!title) {
+      errors.title = "Please Provide Your Title";
+    }
+    if (!desc) {
+      errors.desc = "Please Provide Description";
+    }
+    if (!price) {
+      errors.price = "Please Provide Price";
+    }
+    if (!maxPeople) {
+      errors.maxPeople = "Please Select Max People";
+    }
+    return {
+      errors,
+      isValid: Object.keys(errors).length === 0,
+    };
+  };
   const handleChange = (e) => {
     setInfo((prev) => ({
       ...prev,
@@ -19,9 +39,16 @@ const NewRoom = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
+    const { errors, isValid } = validation();
     try {
       //send to db
-      await axios.post(`/rooms/${hotelId}`, { ...info, roomNumbers });
+      if (isValid) {
+        await axios.post(`/rooms/${hotelId}`, { ...info, roomNumbers });
+        setInfo({});
+        setRooms([]);
+      } else {
+        console.log(errors);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -75,7 +102,9 @@ const NewRoom = () => {
                 </select>
               </div>
 
-              <button onClick={handleSubmit}>Send</button>
+              <button type="button" onClick={handleSubmit}>
+                Send
+              </button>
             </form>
           </div>
         </div>

@@ -53,6 +53,8 @@
                     border: none;
                     border-bottom: 1px solid gray;
                     outline: none;
+
+                    
                 }
             }
             button{
@@ -64,7 +66,13 @@
                 font-weight: bold;
                 cursor: pointer;
                 margin-top: 10px;
+
+                &:disabled {
+                  background: #dddddd;
+                  cursor:no-drop;
+                }
             }
+           
         }
       }
     }

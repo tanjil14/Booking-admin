@@ -1,42 +1,11 @@
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
-import axios from "axios";
 import { useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import "./new.scss";
-const New = ({ inputData, title }) => {
+import "./newRoom.scss";
+const NewRoom = ({ inputData, title }) => {
   const [file, setFile] = useState("");
-  const [info, setInfo] = useState({});
 
-  const handleChange = (e) => {
-    setInfo((prev) => ({
-      ...prev,
-      [e.target.id]: e.target.value,
-    }));
-  };
-  const handleClick = async (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "booking-app");
-
-    try {
-      //1st create img url
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dqo2uejpy/image/upload",
-        data
-      );
-      const { url } = uploadRes.data;
-      const newUser = {
-        ...info,
-        img: url,
-      };
-      //send to db
-      await axios.post("/auth/register", newUser);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   return (
     <div className="new">
       <Sidebar />
@@ -73,7 +42,6 @@ const New = ({ inputData, title }) => {
                 <div className="formInput" key={data.id}>
                   <label htmlFor={data.id}>{data.label}</label>
                   <input
-                    onChange={handleChange}
                     type={data.type}
                     placeholder={data.placeholder}
                     id={data.id}
@@ -81,7 +49,7 @@ const New = ({ inputData, title }) => {
                 </div>
               ))}
 
-              <button onClick={handleClick}>Send</button>
+              <button>Send</button>
             </form>
           </div>
         </div>
@@ -90,4 +58,4 @@ const New = ({ inputData, title }) => {
   );
 };
 
-export default New;
+export default NewRoom;

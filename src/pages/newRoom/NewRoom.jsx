@@ -5,25 +5,20 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { roomInputs } from "../../formData";
 import useFetch from "../../hooks/useFetch";
 import "./newRoom.scss";
+
 const NewRoom = () => {
   const [info, setInfo] = useState({});
   const [hotelId, setHotelId] = useState(undefined);
   const [rooms, setRooms] = useState([]);
+  const [errors, SetErrors] = useState({});
   const { data, loading } = useFetch("/hotels");
   const validation = () => {
     const errors = {};
-    const { title, desc, price, maxPeople } = info;
-    if (!title) {
-      errors.title = "Please Provide Your Title";
+    if (!hotelId) {
+      errors.hotelId = "Please Select A Hotel";
     }
-    if (!desc) {
-      errors.desc = "Please Provide Description";
-    }
-    if (!price) {
-      errors.price = "Please Provide Price";
-    }
-    if (!maxPeople) {
-      errors.maxPeople = "Please Select Max People";
+    if (!rooms.length) {
+      errors.rooms = "Please Provide Room Numbers";
     }
     return {
       errors,
@@ -38,21 +33,22 @@ const NewRoom = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
+
     const { errors, isValid } = validation();
     try {
       //send to db
       if (isValid) {
+        const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
         await axios.post(`/rooms/${hotelId}`, { ...info, roomNumbers });
-        setInfo({});
-        setRooms([]);
+        setInfo((e) => ([e.target.id] = ""));
       } else {
-        console.log(errors);
+        SetErrors(errors);
       }
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
     <div className="new">
       <Sidebar />
@@ -64,7 +60,7 @@ const NewRoom = () => {
         <div className="bottom">
           <div className="right">
             <form>
-              {roomInputs.map((data) => (
+              {roomInputs.map((data, index) => (
                 <div className="formInput" key={data.id}>
                   <label htmlFor={data.id}>{data.label}</label>
                   <input
@@ -82,7 +78,9 @@ const NewRoom = () => {
                   name=""
                   id="rooms"
                   placeholder="Give comma between room numbers"
-                />
+                />{" "}
+                <br />
+                {errors && <span className="error">{errors.rooms}</span>}
               </div>
               <div className="formInput">
                 <label htmlFor="hotelId">Choose A Hotel</label>
@@ -100,6 +98,8 @@ const NewRoom = () => {
                         </option>
                       ))}
                 </select>
+                <br />
+                {errors && <span className="error">{errors.hotelId}</span>}
               </div>
 
               <button type="button" onClick={handleSubmit}>

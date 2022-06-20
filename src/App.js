@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext.js";
 import { DarkModeContext } from "./context/darkModeContext.js";
-import { hotelColumns, userColumns,roomColumns } from "./datatablesource.js";
+import { hotelColumns, roomColumns, userColumns } from "./datatablesource.js";
 import { userInputs } from "./formData.js";
 import Home from "./pages/home/Home.jsx";
 import List from "./pages/list/List.jsx";
@@ -108,7 +108,7 @@ function App() {
                 path="new"
                 element={
                   <ProtectedRoute>
-                    <NewRoom  />
+                    <NewRoom />
                   </ProtectedRoute>
                 }
               />

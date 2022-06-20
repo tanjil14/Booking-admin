@@ -9,7 +9,7 @@ const DataTable = ({ columns }) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
   const [list, setList] = useState([]);
-  const { data} = useFetch(`/${path}`);
+  const { data } = useFetch(`/${path}`);
   useEffect(() => {
     setList(data);
   }, [data]);
@@ -27,7 +27,7 @@ const DataTable = ({ columns }) => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/view" style={{ textDecoration: "none" }}>
+            <Link to={`/users/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div

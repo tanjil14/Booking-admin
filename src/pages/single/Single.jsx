@@ -1,9 +1,21 @@
+
+import { useLocation, useNavigate } from "react-router-dom";
 import Chart from "../../components/chart/Chart.jsx";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Table from "../../components/table/Table";
+import useFetch from "../../hooks/useFetch.js";
 import "./single.scss";
 const Single = () => {
+  // const [user, setUsers] = useState([]);
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
+  const { data } = useFetch(`/users/${path}`);
+  const navigate=useNavigate()
+  const handleClick = () => {
+    navigate(`/users/update/${path}`)
+  };
+
   return (
     <div className="single">
       <Sidebar />
@@ -12,33 +24,38 @@ const Single = () => {
 
         <div className="top">
           <div className="left">
-            <div className="editButton">Edit</div>
+            <div className="editButton" onClick={handleClick}>
+              Edit 
+            </div>
             <h1 className="title">Information</h1>
             <div className="item">
               <img
-                src="https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                src={
+                  (data && data.img) ||
+                  "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                }
                 alt=""
                 className="itemImg"
               />
               <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
+                <h1 className="itemTitle">{data.username}</h1>
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gamil.com</span>
+                  <span className="itemValue">{data.email}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+88123456789</span>
+                  <span className="itemValue">{data.phone}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Address:</span>
                   <span className="itemValue">
-                    Elton St. 234 Garden Yd. NewYork
+                    {`${data.city} , ${data.country}`}
                   </span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Country:</span>
-                  <span className="itemValue">USA</span>
+                  <span className="itemValue">{data.country}</span>
                 </div>
               </div>
             </div>

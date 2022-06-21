@@ -1,7 +1,37 @@
-.sHotel{
-    display: flex;
-    width: 100%;
-    .sHotelContainer{
-        flex: 6;
+.sHotel {
+  display: flex;
+  width: 100%;
+  .sHotelContainer {
+    flex: 6;
+
+    .hotelDetail {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      margin: 0 10px;
+      padding: 10px 20px;
+      .top {
+        width: 100%;
+        h3 {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: rgb(250, 31, 184);
+        }
+        .card {
+            
+        }
+        .deleteButton {
+            padding: 5px 5px;
+            border: none;
+            color: crimson;
+            border-radius:0px 0px 5px 5px ;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;;
+          }
+      }
     }
+  }
 }

@@ -7,7 +7,9 @@ const Room = () => {
             <Sidebar/>
             <div className="sRoomContainer">
                 <Navbar/>
-
+                <div className="top">
+                    
+                </div>
             </div>
         </div>
     );

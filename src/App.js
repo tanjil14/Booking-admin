@@ -5,11 +5,13 @@ import { DarkModeContext } from "./context/darkModeContext.js";
 import { hotelColumns, roomColumns, userColumns } from "./datatablesource.js";
 import { userInputs } from "./formData.js";
 import Home from "./pages/home/Home.jsx";
+import Hotel from "./pages/hotel/Hotel.jsx";
 import List from "./pages/list/List.jsx";
 import Login from "./pages/login/Login.jsx";
 import New from "./pages/new/New.jsx";
 import NewHotel from "./pages/newHotel/NewHotel.jsx";
 import NewRoom from "./pages/newRoom/NewRoom.jsx";
+import Room from "./pages/room/Room.jsx";
 import Single from "./pages/single/Single.jsx";
 import Update from "./pages/update/Update.jsx";
 import "./style/dark.scss";
@@ -83,7 +85,7 @@ function App() {
                 path=":hotelId"
                 element={
                   <ProtectedRoute>
-                    <Single />
+                    <Hotel/>
                   </ProtectedRoute>
                 }
               />
@@ -106,10 +108,10 @@ function App() {
                 }
               />
               <Route
-                path=":productId"
+                path=":roomId"
                 element={
                   <ProtectedRoute>
-                    <Single />
+                    <Room/>
                   </ProtectedRoute>
                 }
               />

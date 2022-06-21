@@ -1,20 +1,34 @@
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import InputForm from "../../components/inputForm/InputForm";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import useFetch from "../../hooks/useFetch";
+import SuccessModal from "../../components/successModal/SuccessModal";
 import "./update.scss";
-const Update = ({ inputData, title }) => {
+const Update = ({ title }) => {
   const location = useLocation();
   const path = location.pathname.split("/")[3];
-  const { data } = useFetch(`/users/${path}`);
+  const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState("");
-  const [info, setInfo] = useState({});
-  console.log(data);
-  console.log(info);
+  const [info, setInfo] = useState({
+    username: "",
+    email: "",
+    city: "",
+    phone: "",
+    country: "",
+    img: "",
+  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/users/${path}`);
+        setInfo(res.data);
+      } catch (err) {}
+    };
+    fetchData();
+  }, [path]);
   const handleChange = (e) => {
     setInfo((prev) => ({
       ...prev,
@@ -29,22 +43,29 @@ const Update = ({ inputData, title }) => {
 
     try {
       //1st create img url
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dqo2uejpy/image/upload",
-        data
-      );
-      const { url } = uploadRes.data;
-      const newUser = {
-        ...info,
-        img: url,
-      };
-      //send to db
-      await axios.post("/auth/register", newUser);
+      if (file) {
+        const uploadRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/dqo2uejpy/image/upload",
+          data
+        );
+
+        const { url } = uploadRes.data;
+        console.log(url);
+        const newUser = {
+          ...info,
+          img: url,
+        };
+        //send to db
+        await axios.put(`/users/${path}`, newUser);
+      } else {
+        await axios.put(`/users/${path}`, info);
+      }
+      setOpenModal(true);
     } catch (err) {
       console.log(err);
     }
   };
-  const { img } = data;
+
   return (
     <div className="new">
       <Sidebar />
@@ -55,7 +76,7 @@ const Update = ({ inputData, title }) => {
         </div>
         <div className="bottom">
           <div className="left">
-            <img src={file ? URL.createObjectURL(file) : `${img}`} alt="" />
+            <img src={file ? URL.createObjectURL(file) : info.img} alt="" />
           </div>
           <div className="right">
             <form>
@@ -72,64 +93,45 @@ const Update = ({ inputData, title }) => {
               </div>
               <InputForm
                 id="username"
-                label="Username"
+                label="User name"
                 type="text"
-                placeholder="john_doe"
-                value={data.username}
+                value={info.username}
+                onChange={handleChange}
               />
               <InputForm
-                id="username"
-                label="Username"
-                type="text"
-                placeholder="john_doe"
-                value={data.email}
+                id="email"
+                label="Email"
+                type="email"
+                value={info.email}
+                onChange={handleChange}
               />
               <InputForm
-                id="username"
-                label="Username"
+                id="phone"
+                label="Phone"
                 type="text"
-                placeholder="john_doe"
-                value={data.phone}
+                value={info.phone}
+                onChange={handleChange}
               />
               <InputForm
-                id="password"
-                label="Password"
-                type="password"
-                value={data.password}
+                id="city"
+                label="City"
+                type="text"
+                value={info.city}
+                onChange={handleChange}
               />
               <InputForm
-                id="username"
-                label="Username"
+                id="country"
+                label="Country"
                 type="text"
-                placeholder="john_doe"
-                value={data.country}
+                value={info.country}
+                onChange={handleChange}
               />
-              <InputForm
-                id="username"
-                label="Username"
-                type="text"
-                placeholder="john_doe"
-                value={data.city}
-              />
-
-              {/* {inputData.map((data) => (
-                <div className="formInput" key={data.id}>
-                  <label htmlFor={data.id}>{data.label}</label>
-                  <input
-                    onChange={handleChange}
-                    type={data.type}
-                    placeholder={data.placeholder}
-                    id={data.id}
-                    value=""
-                  />
-                </div>
-              ))} */}
-
               <button onClick={handleClick}>Send</button>
             </form>
           </div>
         </div>
       </div>
+      {openModal && <SuccessModal title="User has been updated successfully" open={openModal} setOpen={setOpenModal} />}
     </div>
   );
 };

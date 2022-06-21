@@ -1,15 +1,9 @@
 import "./inputForm.scss";
-const InputForm = ({ id, label, type, placeholder, value }) => {
+const InputForm = ({ id, label, type, value, onChange }) => {
   return (
     <div className="formInput">
       <label htmlFor={id}>{label}</label>
-      <input
-        // onChange={handleChange}
-        type={type}
-        placeholder={placeholder}
-        id={id}
-        value={value}
-      />
+      <input onChange={onChange} type={type} id={id} value={value} />
     </div>
   );
 };

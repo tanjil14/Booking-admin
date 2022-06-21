@@ -11,7 +11,7 @@ import New from "./pages/new/New.jsx";
 import NewHotel from "./pages/newHotel/NewHotel.jsx";
 import NewRoom from "./pages/newRoom/NewRoom.jsx";
 import Single from "./pages/single/Single.jsx";
-import Update from "./pages/update/Update.jsx"
+import Update from "./pages/update/Update.jsx";
 import "./style/dark.scss";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -65,7 +65,7 @@ function App() {
                 path="update/:userId"
                 element={
                   <ProtectedRoute>
-                    <Update inputData={userInputs} title="Update User" />
+                    <Update title="Update User" />
                   </ProtectedRoute>
                 }
               />

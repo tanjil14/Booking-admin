@@ -131,7 +131,7 @@ const Update = ({ title }) => {
           </div>
         </div>
       </div>
-      {openModal && <SuccessModal title="User has been updated successfully" open={openModal} setOpen={setOpenModal} />}
+      {openModal && <SuccessModal url={"/users"} title="User has been updated successfully!" open={openModal} setOpen={setOpenModal} />}
     </div>
   );
 };

@@ -3,38 +3,76 @@ import axios from "axios";
 import { useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+import SuccessModal from "../../components/successModal/SuccessModal";
 import "./new.scss";
 const New = ({ inputData, title }) => {
   const [file, setFile] = useState("");
   const [info, setInfo] = useState({});
-
+  const [openModal, setOpenModal] = useState(false);
+  const [error, setError] = useState(false);
   const handleChange = (e) => {
     setInfo((prev) => ({
       ...prev,
       [e.target.id]: e.target.value,
     }));
   };
+  const validation = () => {
+    const errors = {};
+    if (!file) {
+      errors.file = "File Error";
+    }
+    if (!info.username) {
+      errors.username = "Username Error";
+    }
+    if (!info.email) {
+      errors.email = "Email Error";
+    }
+    if (!info.phone) {
+      errors.phone = "Phone Error";
+    }
+    if (!info.password) {
+      errors.password = "Password Error";
+    }
+    if (!info.country) {
+      errors.country = "country Error";
+    }
+    if (!info.city) {
+      errors.city = "city Error";
+    }
+    return {
+      errors,
+      isValid: Object.keys(errors).length === 0,
+    };
+  };
   const handleClick = async (e) => {
+    const { isValid } = validation();
     e.preventDefault();
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "booking-app");
 
     try {
-      //1st create img url
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dqo2uejpy/image/upload",
-        data
-      );
-      const { url } = uploadRes.data;
-      const newUser = {
-        ...info,
-        img: url,
-      };
-      //send to db
-      await axios.post("/auth/register", newUser);
+      if (isValid) {
+        //1st create img url
+        const uploadRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/dqo2uejpy/image/upload",
+          data
+        );
+        const { url } = uploadRes.data;
+        const newUser = {
+          ...info,
+          img: url,
+        };
+        //send to db
+        await axios.post("/auth/register", newUser);
+        setOpenModal(true);
+      } else {
+        setError(true);
+        setOpenModal(true);
+      }
     } catch (err) {
-      console.log(err);
+      setError(true);
+      setOpenModal(true);
     }
   };
   return (
@@ -86,6 +124,18 @@ const New = ({ inputData, title }) => {
           </div>
         </div>
       </div>
+      {openModal && (
+        <SuccessModal
+          url={"/users"}
+          title={
+            error
+              ? "Something went wrong!Please fill all field."
+              : "User has been create successfully!"
+          }
+          open={openModal}
+          setOpen={setOpenModal}
+        />
+      )}
     </div>
   );
 };

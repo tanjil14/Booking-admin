@@ -2,11 +2,11 @@ import { Box, Modal, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./successModal.scss";
 
-const SuccessModal = ({ setOpen, open,title }) => {
+const SuccessModal = ({ setOpen, open, title, url }) => {
   const navigate = useNavigate();
   const handleClose = () => {
     setOpen(false);
-    navigate("/users");
+    navigate(url);
   };
   return (
     <div className="successModal">

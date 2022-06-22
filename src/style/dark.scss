@@ -1,8 +1,8 @@
 .app.dark {
   background: #222;
   color: rgb(156, 156, 156);
-  .home{
-    .menubar{
+  .home {
+    .menubar {
       color: #999;
     }
   }
@@ -56,14 +56,20 @@
       .cellWithStatus {
         color: gray;
         border: none;
-        &.pending{
-            color: rgb(26, 24, 24);
+        &.pending {
+          color: rgb(26, 24, 24);
         }
       }
     }
   }
-  input{
-    background-color:transparent;
+  input {
+    background-color: transparent;
     color: #999;
+  }
+  .roomDetail {
+    .card {
+      background:#111;
+      color: #999;
+    }
   }
 }

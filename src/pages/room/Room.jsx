@@ -8,8 +8,7 @@ const Room = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const { data, loading } = useFetch(`/rooms/${path}`);
-    const { roomNumbers } = data;
-    console.log(roomNumbers)
+  const { roomNumbers } = data;
   return (
     <div className="sRoom">
       <Sidebar />
@@ -17,7 +16,7 @@ const Room = () => {
         <Navbar />
         <div className="roomDetail">
           <div className="top">
-            <Card>
+            <Card className="card">
               <CardActionArea>
                 <CardContent>
                   <Typography
@@ -49,17 +48,18 @@ const Room = () => {
                     <span className="rTitle">Description:</span>
                     {data.desc}
                   </Typography>
-                  <Typoggraphy
+                  <Typography
                     variant="h6"
                     sx={{ fontWeight: 500, fontSize: "18px" }}
                   >
-                    <span className="rTitle">Room Number:</span>
-                    {roomNumbers?.map(room=><span>
-                        {room.number} <br />
-                        <span>Unavailable Dates:{room.unavailableDates}</span>
-                        <br />
-                        </span>)}
-                  </Typoggraphy>
+                    <span className="rTitle">Room Numbers:</span>
+                    {roomNumbers?.map((room) => (
+                      <span key={room._id} className="roomNumber">
+                        {room.number}
+                        <span className="comma">,</span>
+                      </span>
+                    ))}
+                  </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>

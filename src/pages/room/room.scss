@@ -17,6 +17,9 @@
           margin-right: 5px;
           color: #777;
         }
+        .roomNumber:last-child .comma{
+            display: none;
+        }
       }
     }
   }

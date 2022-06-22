@@ -15,9 +15,7 @@ const Hotel = () => {
   const path = location.pathname.split("/")[2];
   const { data, loading } = useFetch(`/hotels/find/${path}`);
   const { photos } = data;
- const handleClick=()=>{
 
- }
   return (
     <div className="sHotel">
       <Sidebar />

@@ -1,7 +1,23 @@
-.sRoom{
-    display: flex;
-    width: 100%;
-    .sRoomContainer{
-        flex: 6;
+.sRoom {
+  display: flex;
+  width: 100%;
+  .sRoomContainer {
+    flex: 6;
+
+    .roomDetail {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      margin: 0 10px;
+      padding: 10px 20px;
+      .top {
+        .rTitle {
+          font-size: 18px;
+          font-weight: 500;
+          margin-right: 5px;
+          color: #777;
+        }
+      }
     }
+  }
 }

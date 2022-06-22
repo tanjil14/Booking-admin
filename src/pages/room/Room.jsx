@@ -7,7 +7,7 @@ import "./room.scss";
 const Room = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
-  const { data, loading } = useFetch(`/rooms/${path}`);
+  const { data } = useFetch(`/rooms/${path}`);
   const { roomNumbers } = data;
   return (
     <div className="sRoom">

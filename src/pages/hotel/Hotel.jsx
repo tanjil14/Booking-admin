@@ -1,9 +1,9 @@
 import {
-  Button,
   Card,
   CardActionArea,
-  CardActions,
+  CardContent,
   CardMedia,
+  Typography,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
@@ -13,7 +13,11 @@ import "./hotel.scss";
 const Hotel = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
-  const { data } = useFetch(`/hotels/find/${path}`);
+  const { data, loading } = useFetch(`/hotels/find/${path}`);
+  const { photos } = data;
+ const handleClick=()=>{
+
+ }
   return (
     <div className="sHotel">
       <Sidebar />
@@ -21,18 +25,95 @@ const Hotel = () => {
         <Navbar />
         <div className="hotelDetail">
           <div className="top">
-            <h3>Hotel Images</h3>
-            <Card sx={{ maxWidth: 350 }} className="card">
+            <Card>
               <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image="http://res.cloudinary.com/dqo2uejpy/image/upload/v1655641916/upload/ttwdiu5n6yva65cg5j3y.jpg"
-                  alt="green iguana"
-                />
+                <CardContent>
+                  <Typography
+                    sx={{ fontWeight: 600, fontSize: "20px" }}
+                    variant="h5"
+                    component="div"
+                  >
+                    <span className="hTitle">Name:</span>
+                    {data.name}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 500, fontSize: "18px" }}
+                  >
+                    <span className="hTitle">Title:</span>
+                    {data.title}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 500, fontSize: "18px" }}
+                  >
+                    <span className="hTitle">Type:</span>
+                    {data.type}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 500, fontSize: "18px" }}
+                  >
+                    <span className="hTitle">City:</span>
+                    {data.city}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 500, fontSize: "18px" }}
+                  >
+                    <span className="hTitle">Address:</span>
+                    {data.address}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 500, fontSize: "18px" }}
+                  >
+                    <span className="hTitle">Description:</span>
+                    {data.desc}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 500, fontSize: "18px" }}
+                  >
+                    <span className="hTitle">Price</span>
+                    {data.cheapestPrice}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 500, fontSize: "18px" }}
+                  >
+                    <span className="hTitle">Distance</span>
+                    {data.distance}
+                  </Typography>
+                </CardContent>
               </CardActionArea>
-                <button className="deleteButton">Delete</button>
             </Card>
+          </div>
+          <div className="center">
+            <h3>Hotel Images</h3>
+            <div className="centerImg">
+              {loading
+                ? "Loading"
+                : photos &&
+                  photos?.map((photo) => (
+                    <Card
+                      sx={{ maxWidth: 350 }}
+                      className="card"
+                      key={photo._id}
+                    >
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="300"
+                          image={photo}
+                          alt="photo"
+                          className="cardIng"
+                        />
+                      </CardActionArea>
+                      {/* <button onClick={handleClick} className="deleteButton">Delete</button> */}
+                    </Card>
+                  ))}
+            </div>
           </div>
         </div>
       </div>

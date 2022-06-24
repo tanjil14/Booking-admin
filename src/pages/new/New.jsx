@@ -117,6 +117,7 @@ const New = ({ inputData, title }) => {
                     id={data.id}
                   />
                 </div>
+              
               ))}
 
               <button onClick={handleClick}>Send</button>
